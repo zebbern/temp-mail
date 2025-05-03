@@ -1,6 +1,6 @@
 # Temp-Mail
 
-A minimalist GUI app for generating and managing temporary email addresses using multiple services. Designed to help you create, view, and copy temp-mail addresses without losing access mid-session.
+Script for generating and managing temp emails using multiple services. Designed to help you create, view, and copy temp-mail addresses without losing access mid-session.
 
 ---
 
