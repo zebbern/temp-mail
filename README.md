@@ -1,25 +1,38 @@
-# temp-mail
-A Gui menu designed to generate temp-mails from many services with functions to help you on the way and not lose the temp mail
+# Temp-Mail
+
+A minimalist GUI app for generating and managing temporary email addresses using multiple services. Designed to help you create, view, and copy temp-mail addresses without losing access mid-session.
 
 ---
-**Installation Progress:**
 
-<kbd>Windows Command:</kbd>
-```
+## Installation
+
+**Windows:**
+
+```bash
 python -m venv venv && venv\Scripts\activate
-```
-
-<kbd>Linux Command:</kbd>
-```
-python3 -m venv venv && source venv/bin/activate
-```
-```
 pip install -r requirements.txt
 python tempgen.py
 ```
 
-**Preview:**
+**Linux/macOS:**
+
+```bash
+python3 -m venv venv && source venv/bin/activate
+pip install -r requirements.txt
+python tempgen.py
+```
+
+---
+
+## Features
+
+* Multiple temp mail services (e.g., GuerrillaMail, Mail.tm, DropMail)
+* Persistent message caching and inbox refresh
+* HTML and raw message view tabs
+* Copy/delete address management
+
+---
+
+## Preview 
 
 ![temp-mail](https://github.com/user-attachments/assets/e7487653-cf5a-4243-9e08-811dc35124ae)
-
-
