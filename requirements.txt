@@ -1,0 +1,4 @@
+PyQt6>=6.5
+qasync>=0.27.0
+aiohttp>=3.8.0
+requests>=2.31.0
