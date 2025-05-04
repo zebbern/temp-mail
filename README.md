@@ -1,6 +1,6 @@
 # Temp-Mail
 
-Script for generating and managing temp emails using multiple services. Designed to help you create, view, and copy temp-mail addresses without losing access mid-session.
+> Script to generating and manage temp emails using multiple services. Designed to help you create, view, and copy temp-mail addresses without losing access mid-session.
 
 ---
 
