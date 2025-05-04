@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # Developed by: https://github.com/zebbern
+
 """TempMail Pro - Compact version with minimal UI and multiple services"""
 import sys
 import asyncio
@@ -10,8 +11,10 @@ from pathlib import Path
 from typing import Dict, List, Optional
 from time import time  # Added for timers
 import re  # For URL detection
-
+import sys
+from PyQt6.QtCore import Qt, QPoint
 from PyQt6 import QtWidgets, QtCore, QtGui
+from PyQt6.QtWidgets import QApplication
 import qasync
 import aiohttp
 
@@ -370,7 +373,7 @@ class CompactToolbar(QtWidgets.QWidget):
         # Close button
         close_btn = QtWidgets.QPushButton('⛌')
         close_btn.setFixedWidth(42)
-        close_btn.clicked.connect(parent.close)
+        close_btn.clicked.connect(lambda: sys.exit(0))
         layout.addWidget(close_btn)
 
     def get_selected_service(self) -> str:
@@ -428,7 +431,7 @@ class SettingsDialog(QtWidgets.QDialog):
             layout.addWidget(separator)
         
         # Refresh interval section
-        refresh_header = QtWidgets.QLabel("Refresh Interval")
+        refresh_header = QtWidgets.QLabel("Inbox Refresh Interval")
         refresh_header.setObjectName("settings-header")
         layout.addWidget(refresh_header)
         
@@ -484,6 +487,7 @@ class TempMailApp(QtWidgets.QMainWindow):
         self.refresh_interval = 3  # Default 3 seconds
         self.message_cache: Dict[str, List[Dict]] = {}  # Cache for messages
         self.recently_updated = set()  # Track addresses with new messages
+        self._drag_pos = None
         
         # Create dummy card attribute
         self.card = DummyCard()
@@ -580,6 +584,22 @@ class TempMailApp(QtWidgets.QMainWindow):
 
         # Compact status bar
         self.statusBar().setStyleSheet('padding: 3px;')
+
+    def mousePressEvent(self, event):
+        if event.button() == Qt.MouseButton.LeftButton:
+            # record the offset between the window’s top-left and the click
+            self._drag_pos = event.globalPosition().toPoint() - self.frameGeometry().topLeft()
+            event.accept()
+
+    def mouseMoveEvent(self, event):
+        if event.buttons() & Qt.MouseButton.LeftButton and self._drag_pos is not None:
+            # move the window to follow the mouse, keeping that offset
+            self.move(event.globalPosition().toPoint() - self._drag_pos)
+            event.accept()
+
+    def mouseReleaseEvent(self, event):
+        self._drag_pos = None
+        event.accept()
 
     def _get_api(self, service_key: str):
         """Get or create API instance for a service"""
