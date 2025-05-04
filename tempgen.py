@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 # Developed by: https://github.com/zebbern
-
 """TempMail Pro - Compact version with minimal UI and multiple services"""
 import sys
 import asyncio
@@ -231,11 +230,13 @@ class EmailListItem(QtWidgets.QWidget):
         self.count_label = QtWidgets.QLabel(count_text)
         self.count_label.setFont(QtGui.QFont('Segoe UI', 8))
         self.count_label.setStyleSheet("""
-            color: rgba(255, 255, 255, 0.9);
-            background-color: rgba(50, 50, 50, 0.5);
-            border-radius: 2px;
-            padding: 2px 6px;
-        """)
+    color: #FFF;
+    background-color: rgba(50, 50, 50, 0.5);
+    border: 1px solid rgba(200, 200, 200, 0.7);   /* <-- add a light border */
+    border-radius: 2px;                            /* <-- bigger rounding */
+    padding: 2px 2px;                              /* <-- more inner space */
+""")
+
         self.count_label.setFixedWidth(70)  # Fixed width for alignment
         self.count_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)  # Center text
         info_layout.addWidget(self.count_label)
@@ -244,7 +245,7 @@ class EmailListItem(QtWidgets.QWidget):
         self.timer_label = QtWidgets.QLabel("00:00:00")
         self.timer_label.setFont(QtGui.QFont('Segoe UI', 8))
         self.timer_label.setStyleSheet('color: #17a2d8;')
-        self.timer_label.setFixedWidth(70)  # Fixed width for alignment
+        self.timer_label.setFixedWidth(80)  # Fixed width for alignment
         self.timer_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)  # Center text
         info_layout.addWidget(self.timer_label)
         info_layout.addStretch()
@@ -294,8 +295,8 @@ class EmailListItem(QtWidgets.QWidget):
                 color: #17a2d8;
                 font-weight: bold;
                 background-color: rgba(50, 50, 50, 0.5);
-                border-radius: 2px;
-                padding: 2px 6px;
+                border-radius: 1px;
+                padding: 2px 3px;
             """)
         else:
             self.count_label.setStyleSheet("""
@@ -321,10 +322,11 @@ class EmailListItem(QtWidgets.QWidget):
         remaining = max(0, self.expiry_seconds - elapsed)
         
         # Format as HH:MM:SS
-        hours = int(remaining // 3600)
+        days    = int(remaining // 86400)
+        hours   = int((remaining % 86400) // 3600)
         minutes = int((remaining % 3600) // 60)
         seconds = int(remaining % 60)
-        timer_text = f"{hours:02d}:{minutes:02d}:{seconds:02d}"
+        timer_text = f"{days} days {hours:02d}:{minutes:02d}:{seconds:02d}"
         
         self.timer_label.setText(timer_text)
         
@@ -373,7 +375,7 @@ class CompactToolbar(QtWidgets.QWidget):
         # Close button
         close_btn = QtWidgets.QPushButton('⛌')
         close_btn.setFixedWidth(42)
-        close_btn.clicked.connect(lambda: sys.exit(0))
+        close_btn.clicked.connect(parent.close)
         layout.addWidget(close_btn)
 
     def get_selected_service(self) -> str:
@@ -386,8 +388,11 @@ class SettingsDialog(QtWidgets.QDialog):
                 refresh_interval=3, on_domain_change=None, on_interval_change=None):
         super().__init__(parent)
         self.setWindowTitle("Settings")
-        self.setMinimumWidth(350)
+        self.setFixedWidth(300)
+        self.setFixedHeight(350)
         self.setStyleSheet(DARK_THEME)
+        self.setWindowFlag(Qt.WindowType.FramelessWindowHint, True)
+
         
         self.current_domain = current_domain
         self.domains = domains or []
@@ -396,7 +401,7 @@ class SettingsDialog(QtWidgets.QDialog):
         self.on_interval_change = on_interval_change
         
         layout = QtWidgets.QVBoxLayout(self)
-        layout.setSpacing(10)
+        layout.setSpacing(5)
         
         # Domain section
         if domains:
@@ -408,9 +413,7 @@ class SettingsDialog(QtWidgets.QDialog):
             domain_group.setStyleSheet("""
                 QGroupBox {
                     border: 1px solid rgba(255, 255, 255, 0.1);
-                    border-radius: 5px;
-                    margin-top: 10px;
-                    padding: 10px;
+
                 }
             """)
             domain_layout = QtWidgets.QVBoxLayout(domain_group)
@@ -439,9 +442,7 @@ class SettingsDialog(QtWidgets.QDialog):
         refresh_group.setStyleSheet("""
             QGroupBox {
                 border: 1px solid rgba(255, 255, 255, 0.1);
-                border-radius: 5px;
-                margin-top: 10px;
-                padding: 10px;
+
             }
         """)
         refresh_layout = QtWidgets.QVBoxLayout(refresh_group)
@@ -488,6 +489,7 @@ class TempMailApp(QtWidgets.QMainWindow):
         self.message_cache: Dict[str, List[Dict]] = {}  # Cache for messages
         self.recently_updated = set()  # Track addresses with new messages
         self._drag_pos = None
+        self._setup_auto_refresh()
         
         # Create dummy card attribute
         self.card = DummyCard()
