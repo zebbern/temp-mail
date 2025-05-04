@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Developed by: https://github.com/zebbern
 """TempMail Pro - Compact version with minimal UI and multiple services"""
 import sys
 import asyncio
