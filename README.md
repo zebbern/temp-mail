@@ -13,7 +13,7 @@
 
 ## Installation
 
-**Windows:**
+<kbd>**Windows:**</kbd>
 
 ```bash
 python -m venv venv && venv\Scripts\activate
@@ -21,7 +21,7 @@ pip install -r requirements.txt
 python tempgen.py
 ```
 
-**Linux/macOS:**
+<kbd>**Linux/macOS:**</kbd>
 
 ```bash
 python3 -m venv venv && source venv/bin/activate
