@@ -2,4 +2,3 @@ PyQt6
 qasync
 aiohttp
 requests
-
