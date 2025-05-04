@@ -1,3 +1,4 @@
+# Developed by: https://github.com/zebbern
 """Temporary Email Service APIs for TempMail Pro"""
 import random
 import string
