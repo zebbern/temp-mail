@@ -34,5 +34,6 @@ python tempgen.py
 ---
 
 ## Preview 
+![temp-zebbern](https://github.com/user-attachments/assets/af783c73-d7d5-4af2-aeae-85ff5b279952)
 
-![temp-mail](https://github.com/user-attachments/assets/e7487653-cf5a-4243-9e08-811dc35124ae)
+
