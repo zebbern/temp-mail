@@ -1,6 +1,6 @@
 # Temp-Mail
 
-> Script to generate and manage temp emails using multiple providers. Designed to help you create, view, and copy temp-mail addresses without losing access mid-session.
+> Python GUI to generate and manage temp-mails using multiple providers. Designed to help you create, view, and copy temp-mail addresses without losing access mid-session.
 
 ![temp-zebbern](https://github.com/user-attachments/assets/af783c73-d7d5-4af2-aeae-85ff5b279952)
 
